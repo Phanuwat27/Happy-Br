@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Happy Birthday</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to top, #ffe6f0, #ffffff);
+      text-align: center;
+      padding: 20px 15px;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    .page {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+    h1 {
+      margin-top: 20px;
+      font-size: 1.8em;
+      color: #ff3399;
+      line-height: 1.2;
+    }
+    button {
+      margin-top: 30px;
+      padding: 12px 25px;
+      font-size: 16px;
+      background: #ff66cc;
+      border: none;
+      color: white;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(255, 102, 204, 0.4);
+      touch-action: manipulation;
+    }
+    button:hover, button:active {
+      background: #ff3399;
+      transform: translateY(-2px);
+    }
+    /* หน้า 1 */
+    .cake-img {
+      width: 200px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      margin: 20px auto;
+    }
+    /* หน้า 2 */
+    .envelope-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+    }
+    .envelope-img {
+      width: 250px;
+      height: auto;
+      margin: 20px auto;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .envelope-img:hover {
+      transform: scale(1.05);
+    }
+    .paper {
+      width: 95%;
+      max-width: 350px;
+      min-height: 250px;
+      background: #fff8f0;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      transform: scaleY(0);
+      transform-origin: top;
+      opacity: 0;
+      transition: all 1s ease;
+      overflow: hidden;
+      position: relative;
+      white-space: pre-line; /* ให้ขึ้นบรรทัดตาม \n */
+      text-align: center; /* กึ่งกลางข้อความ */
+      font-size: 16px;
+      color: #333;
+      line-height: 1.5;
+    }
+    .paper.show {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+    /* แอนิเมชันตกหัวใจ */
+    .heart {
+      position: fixed;
+      top: -50px;
+      color: #ff3366;
+      font-size: 18px;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    /* แอนิเมชันตกของตกแต่ง */
+    .decoration {
+      position: fixed;
+      font-size: 25px;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 1001;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    /* Responsive */
+    @media screen and (max-width: 480px) {
+      .envelope-img {
+        width: 200px;
+      }
+      .paper {
+        max-width: 90%;
+        font-size: 15px;
+        min-height: 220px;
+      }
+      .heart {
+        font-size: 16px;
+      }
+      .decoration {
+        font-size: 20px;
+      }
+    }
+    @media screen and (max-width: 320px) {
+      .envelope-img {
+        width: 180px;
+      }
+      .paper {
+        max-width: 95%;
+        font-size: 14px;
+        min-height: 200px;
+      }
+      .heart {
+        font-size: 14px;
+      }
+      .decoration {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- เพลง Happy Birthday ฝัง YouTube -->
+  <div id="musicContainer" style="position: fixed; top: -300px; left: 0; width: 100%; height: 200px; z-index: -1;">
+    <iframe id="birthdayMusic" width="100%" height="200" src="https://www.youtube.com/embed/_z-1fTlSDF0?autoplay=1&amp;loop=1&amp;playlist=_z-1fTlSDF0&amp;controls=0&amp;mute=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- หน้า 1 -->
+  <div id="page1" class="page active">
+    <img class="cake-img" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjgwMWs5azU5eXQ4Ymxwc2F6b2d3MnVoMzlmcGlkdnQzdnNiaGpvcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7NpSWoebkmJuryOWOG/giphy.gif" alt="เค้กวันเกิดเคลื่อนไหว">
+    <h1>🎉 Happy Birthday! 🎂</h1>
+    <button onclick="goToPage2()">เป่าเค้ก</button>
+  </div>
+
+  <!-- หน้า 2 -->
+  <div id="page2" class="page">
+    <div class="envelope-container">
+      <!-- ซองจดหมายเคลื่อนไหว -->
+      <img class="envelope-img" onclick="openBriefLetter()" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWtjN3NvZWJicDlrajd6dHl1MTdiNnI1cjBieXUwZHVqNTN5cGlwbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3jVTxI0NaSZuN893MM/giphy.gif" alt="จดหมายเคลื่อนไหว">
+      <div class="paper" id="paper">
+        <div id="typedText"></div>
+      </div>
+      <button onclick="openBriefLetter()">เปิดจดหมาย</button>
+    </div>
+  </div>
+
+<script>
+  // เปลี่ยนหน้า 1 เป็น หน้า 2
+  function goToPage2() {
+    setTimeout(() => {
+      document.getElementById("page1").classList.remove("active");
+      document.getElementById("page2").classList.add("active");
+    }, 1000);
+  }
+
+  // เปิดจดหมายเล็กในหน้า 2 (paper)
+  function openBriefLetter() {
+    const paper = document.getElementById("paper");
+    paper.classList.add("show");
+    startHeartRain();
+    typeMessage(`สุขสันต์วันเกิดนะคนเก่ง 🎉
+
+ขอให้วันนี้และทุกวันของเธอเต็มไปด้วยความสุข ความรัก และเสียงหัวเราะ 💖  
+ขอให้เธอแข็งแรงในทุกๆวัน ขอให้มีความสุขทุกวัน ต่อให้เจออุปสรรคอะไร  
+ให้เธอผ่านมันไปได้
+
+จากใจใครบางคนที่คิดถึงเธอเสมอ 😊`);
+  }
+
+  // พิมพ์ข้อความทีละตัวสำหรับจดหมายเล็ก
+  function typeMessage(message) {
+    const textEl = document.getElementById("typedText");
+    let i = 0;
+    textEl.textContent = '';
+    if(window.messageInterval) clearInterval(window.messageInterval);
+    window.messageInterval = setInterval(() => {
+      textEl.textContent += message.charAt(i);
+      i++;
+      if (i >= message.length) clearInterval(window.messageInterval);
+    }, 50);
+  }
+
+  // เริ่มแอนิเมชันตกหัวใจ
+  function startHeartRain() {
+    if (window.heartInterval) clearInterval(window.heartInterval);
+    window.heartInterval = setInterval(() => {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 15 + 12) + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
+    }, 500);
+  }
+</script>
+
+<script type="text/javascript" id="dcoder_script">function typeBlessing(message) {
+  const textEl = document.getElementById("blessingText");
+  let i = 0;
+  textEl.textContent = '';
+  if(window.blessingInterval) clearInterval(window.blessingInterval);
+  window.blessingInterval = setInterval(() => {
+    textEl.textContent += message.charAt(i);
+    i++;
+    if (i >= message.length) clearInterval(window.blessingInterval);
+  }, 80);
+}
+
+function typeMessage(message) {
+  const textEl = document.getElementById("typedText");
+  let i = 0;
+  textEl.textContent = '';
+  if(window.messageInterval) clearInterval(window.messageInterval);
+  window.messageInterval = setInterval(() => {
+    textEl.textContent += message.charAt(i);
+    i++;
+    if (i >= message.length) clearInterval(window.messageInterval);
+  }, 50);
+}
+</script></body></html>
